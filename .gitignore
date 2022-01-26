@@ -8,3 +8,5 @@
 
 # built phar
 build/pimcore.phar
+
+.idea/

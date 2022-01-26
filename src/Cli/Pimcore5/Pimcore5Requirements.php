@@ -99,7 +99,8 @@ class Pimcore5Requirements extends RequirementCollection
         if (extension_loaded('suhosin')) {
             $this->addPhpConfigRequirement(
                 'suhosin.executor.include.whitelist',
-                create_function('$cfgValue', 'return false !== stripos($cfgValue, "phar");'),
+                function($cfgValue) { return false !== stripos($cfgValue, "phar"); },
+                //create_function('$cfgValue', 'return false !== stripos($cfgValue, "phar");'),
                 false,
                 'suhosin.executor.include.whitelist must be configured correctly in php.ini',
                 'Add "<strong>phar</strong>" to <strong>suhosin.executor.include.whitelist</strong> in php.ini<a href="#phpini">*</a>.'
@@ -117,7 +118,8 @@ class Pimcore5Requirements extends RequirementCollection
 
             $this->addPhpConfigRequirement(
                 'xdebug.max_nesting_level',
-                create_function('$cfgValue', 'return $cfgValue > 100;'),
+                function ($cfgValue) { return $cfgValue > 100; },
+                //create_function('$cfgValue', 'return $cfgValue > 100;'),
                 true,
                 'xdebug.max_nesting_level should be above 100 in php.ini',
                 'Set "<strong>xdebug.max_nesting_level</strong>" to e.g. "<strong>250</strong>" in php.ini<a href="#phpini">*</a> to stop Xdebug\'s infinite recursion protection erroneously throwing a fatal error in your project.'
@@ -143,7 +145,8 @@ class Pimcore5Requirements extends RequirementCollection
         if (extension_loaded('mbstring')) {
             $this->addPhpConfigRequirement(
                 'mbstring.func_overload',
-                create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
+                function($cfgValue) { return (int) $cfgValue === 0; },
+                //create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
                 true,
                 'string functions should not be overloaded',
                 'Set "<strong>mbstring.func_overload</strong>" to <strong>0</strong> in php.ini<a href="#phpini">*</a> to disable function overloading by the mbstring extension.'
@@ -287,7 +290,8 @@ class Pimcore5Requirements extends RequirementCollection
 
         $this->addPhpConfigRecommendation(
             'intl.error_level',
-            create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
+            function($cfgValue) { return (int) $cfgValue === 0; },
+            //create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
             true,
             'intl.error_level should be 0 in php.ini',
             'Set "<strong>intl.error_level</strong>" to "<strong>0</strong>" in php.ini<a href="#phpini">*</a> to inhibit the messages when an error occurs in ICU functions.'
